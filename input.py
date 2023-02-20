@@ -1,8 +1,10 @@
 from bs4 import BeautifulSoup
 import requests
 from recipe_scrapers import scrape_me
-scraper = scrape_me("https://www.allrecipes.com/recipe/223382/chicken-stir-fry/")
+class RECIPE:
 
-instructions = scraper.instructions_list()
+    def __init__(self, url):
+        self
+        self.scraper =scrape_me(("https://www.allrecipes.com/recipe/223382/chicken-stir-fry/"))
 
-print(instructions[3])
+
