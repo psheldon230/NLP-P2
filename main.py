@@ -2,7 +2,7 @@ import recipe_scrapers
 from Recipe import RECIPE
 from  parsedinstruction import parsedInstruction
 
-keywordList = [["ingredient", "ingredients"], ["cooking action"], ["quantity", "much", "many", "amount"], ["time", "hours", "minutes"]]
+keywordList = [["ingredient", "ingredients"], ["cooking action", "action", "verb"], ["quantity", "much", "many", "amount"], ["time", "hours", "minutes", "long"]]
 
 unchanged = True
 firstTime = True
@@ -69,7 +69,9 @@ while True:
         print("Step " + str(step + 1) + ":")
         print(recipe.instructions_list[step])
     while unchanged:
-        question = input("What would you like to know? You can ask things like show another step, show all steps, show the cooking ingredients, or how much do I need")
+        print("")
+        question = input("What would you like to know? You can ask things like show another step, show all steps, show the cooking ingredients, or how much do I need ")
+        print("")
         if question.__contains__("next step"):
             step = checkStep(recipe, True, step)
             print("")
@@ -95,6 +97,7 @@ while True:
                     if question.__contains__(keywordList[i][j]):
                         handleQuestion(i, recipe, step)
                         answered = True
+                        break
             if not(answered):
                 print("Sorry, I am not sure. Please ask another question.")
 
