@@ -15,7 +15,7 @@ instructions = instructions.split(".")
 for i in range(len(instructions)):
     instructions[i] = instructions[i].replace('\n',"")
 test = nltk.pos_tag(word_tokenize(instructions[1]))
-text = instructions[2]
+text = instructions[7]
 doc =  nlp(text)
 #print(doc.ents)
 #print("Noun phrases:", [chunk.text for chunk in doc.noun_chunks])
@@ -50,14 +50,30 @@ def find_ingredients(instruction):
 
 find_ingredients(text)
 
-def find_tools(instruction):
-    doc =  nlp(instruction)
-    for chunk in doc.noun_chunks:
-            if chunk.text.lower().find("a ") != -1 and chunk.root.text not in cooking_verbs:
-                step_breakdown["tools"].append(chunk.text)
-    print(step_breakdown["tools"])
+def get_pps(doc):
+    "Function to get PPs from a parsed document."
+    pps = []
+    for token in doc:
+        # Try this with other parts of speech for different subtrees.
+        if token.pos_ == 'ADP':
+            pp = ' '.join([tok.orth_ for tok in token.subtree])
+            pps.append(pp)
+    return pps
 
-find_tools(text)
+print(get_pps(doc))
+
+
+def get_verb(doc):
+    "Function to get PPs from a parsed document."
+    pps = []
+    for token in doc:
+        # Try this with other parts of speech for different subtrees.
+        if token.pos_ == 'VERB':
+            pp = ' '.join([tok.orth_ for tok in token.subtree])
+            pps.append(pp)
+    return pps
+
+print(get_verb(doc))
 # step = 1 //keep this, I commented it for now but it does a good job at taking out cooking actions
 # print(instructions)
 # for cooking_action in instructions:
