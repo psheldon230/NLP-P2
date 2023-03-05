@@ -1,9 +1,6 @@
 from bs4 import BeautifulSoup
 import requests
 from recipe_scrapers import scrape_me
-import nltk
-from nltk.tree import Tree, TreePrettyPrinter
-from nltk.tokenize import word_tokenize
 import spacy
 nlp = spacy.load("en_core_web_sm")
 
@@ -14,7 +11,6 @@ ingredients = scraper.ingredients()
 instructions = instructions.split(".")
 for i in range(len(instructions)):
     instructions[i] = instructions[i].replace('\n',"")
-test = nltk.pos_tag(word_tokenize(instructions[1]))
 text = instructions[7]
 doc =  nlp(text)
 #print(doc.ents)
@@ -46,12 +42,12 @@ def find_ingredients(instruction):
         for ingredient in ingredients:
             if chunk.root.text.lower() in ingredient and chunk.text not in step_breakdown["ingredients"]:
                 step_breakdown["ingredients"].append(chunk.text)
-    print(step_breakdown["ingredients"])
+    return step_breakdown["ingredients"]
 
-find_ingredients(text)
 
-def get_pps(doc):
+def get_pps(instruction):
     "Function to get PPs from a parsed document."
+    doc =  nlp(instruction)
     pps = []
     for token in doc:
         # Try this with other parts of speech for different subtrees.
@@ -60,11 +56,12 @@ def get_pps(doc):
             pps.append(pp)
     return pps
 
-print(get_pps(doc))
+#print(get_pps(doc))
 
 
-def get_verb(doc):
+def get_verb(instruction):
     "Function to get PPs from a parsed document."
+    doc =  nlp(instruction)
     pps = []
     for token in doc:
         # Try this with other parts of speech for different subtrees.
@@ -73,7 +70,7 @@ def get_verb(doc):
             pps.append(pp)
     return pps
 
-print(get_verb(doc))
+#print(get_verb(doc))
 # step = 1 //keep this, I commented it for now but it does a good job at taking out cooking actions
 # print(instructions)
 # for cooking_action in instructions:
