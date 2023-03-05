@@ -90,7 +90,7 @@ def get_verb2(instruction):
                 phrase = root.text
             verb_noun_phrases.append(phrase)
 
-    print(verb_noun_phrases)
+    return verb_noun_phrases
 
 get_verb2(text)
 #print(get_verb(doc))

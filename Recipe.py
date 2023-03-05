@@ -37,7 +37,7 @@ class RECIPE:
         return "9 seconds"
     def cookingAction_Parse(self, string):
          #takes a string as input, parses, and returns a cooking action for the current instruction
-         return test.get_verb(string)
+         return test.get_verb2(string)
     def quantity_Parse(self, string):
         return "7 pounds"
     def ingredient_Parse(self, string):
