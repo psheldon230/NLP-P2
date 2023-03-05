@@ -92,7 +92,6 @@ def get_verb2(instruction):
 
     return verb_noun_phrases
 
-get_verb2(text)
 #print(get_verb(doc))
 # step = 1 //keep this, I commented it for now but it does a good job at taking out cooking actions
 # print(instructions)
