@@ -11,7 +11,7 @@ ingredients = scraper.ingredients()
 instructions = instructions.split(".")
 for i in range(len(instructions)):
     instructions[i] = instructions[i].replace('\n',"")
-text = instructions[7]
+text = instructions[9]
 doc =  nlp(text)
 #print(doc.ents)
 #print("Noun phrases:", [chunk.text for chunk in doc.noun_chunks])
@@ -23,7 +23,7 @@ cooking_verbs = ["add","break","boil","blend","bake","barbecue","cut","cover","c
                  "marinate","peel","pour","put",'remove',"roast","refridgerate","roll","rinse","stir",
                  "scramble","sprinkle","squeeze","spread","steam","simmer","slice","saute","sip","sharpen",
                  "sift","toss","turn off","tenderize","taste","toast","weigh","whisk","wash","combine","separate",
-                 "cook","serve","transfer","move"]
+                 "cook","serve","transfer","move","heat","set"]
 
 
 #for step_breakdown the key will be a step id (# in array) and hold each steps important info:
@@ -35,14 +35,15 @@ cooking_verbs = ["add","break","boil","blend","bake","barbecue","cut","cover","c
 step_breakdown = {'cooking action': [], 'ingredients': [], 'tools': []} 
 
 
-#if empty its previous ingreidents
+#if empty its previous ingredients
 def find_ingredients(instruction):
+    step_ingredients = []
     doc =  nlp(instruction)
     for chunk in doc.noun_chunks:
         for ingredient in ingredients:
             if chunk.root.text.lower() in ingredient and chunk.text not in step_breakdown["ingredients"]:
-                step_breakdown["ingredients"].append(chunk.text)
-    return step_breakdown["ingredients"]
+                    step_ingredients.append(chunk.text)
+    return step_ingredients
 
 
 def get_pps(instruction):
@@ -70,6 +71,28 @@ def get_verb(instruction):
             pps.append(pp)
     return pps
 
+def get_verb2(instruction):
+    doc =  nlp(instruction)
+    verb_noun_phrases = []
+    for token in doc:
+        if token.text.lower() in cooking_verbs or token.pos_ == "VERB":
+            # Find the root of the verb phrase
+            root = token
+            while any([t.dep_ in ("aux", "auxpass") for t in root.children]):
+                root = [t for t in root.children if t.dep_ in ("aux", "auxpass")][0]
+            # Find the noun or adverb that is directly dependent on the verb (if any)
+            noun_or_adverb = [t for t in root.children if t.dep_ in ("dobj", "iobj", "advmod")]
+            # If there is a dependent noun or adverb, extract the verb and its dependent noun or adverb
+            if len(noun_or_adverb) > 0:
+                phrase = f"{root.text} {noun_or_adverb[0].text}"
+            # Otherwise, just extract the verb
+            else:
+                phrase = root.text
+            verb_noun_phrases.append(phrase)
+
+    print(verb_noun_phrases)
+
+get_verb2(text)
 #print(get_verb(doc))
 # step = 1 //keep this, I commented it for now but it does a good job at taking out cooking actions
 # print(instructions)
