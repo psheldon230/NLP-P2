@@ -30,18 +30,25 @@ def handleQuestion(index, recipe, step):
             print(tool)
         print("")
 
-def checkStep(recipe, next, curr):
+def checkStep(recipe, next, curr, back):
         looking = True
         while looking:
-            if not(next):
+            if not(next) and not(back):
                 step = int(input("What step would you like to see? Please enter a number ")) - 1
+            elif back:
+                step = curr - 1
             else:
                 step = curr + 1
             looking = False
-            if next:
-                if step == len(recipe.instructions_list) - 1:
-                    print("That was the last step!")
-                    step -= 1
+            if next or back:
+                if step > len(recipe.instructions_list) - 1 or step < 0:
+                    if next:
+
+                        print("That was the last step!")
+                        step -= 1
+                    elif back:
+                        print("That was the first step!")
+                        step += 1
                     looking == False
 
             elif step > len(recipe.instructions_list)-1 or step < 0:
@@ -87,7 +94,7 @@ while True:
     if start.__contains__("all"):
         print_instructions(recipe)
     elif start.__contains__("step"):
-        step = checkStep(recipe, False, step)
+        step = checkStep(recipe, False, step, False)
         print("")
         print("Step " + str(step + 1) + ":")
         print(recipe.instructions_list[step])
@@ -96,7 +103,12 @@ while True:
         question = input("What would you like to know? You can ask things like next step, show all steps, show the cooking ingredients, or how much do I need ")
         print("")
         if question.__contains__("next step"):
-            step = checkStep(recipe, True, step)
+            step = checkStep(recipe, True, step, False)
+            print("")
+            print("Step " + str(step + 1) + ":")
+            print(recipe.instructions_list[step])
+        elif question.__contains__("previous") or question.__contains__("back"):
+            step = checkStep(recipe, False, step, True)
             print("")
             print("Step " + str(step + 1) + ":")
             print(recipe.instructions_list[step])
@@ -107,7 +119,7 @@ while True:
             print_ingredients(recipe)
             step = 0
         elif question.__contains__("step"):
-            step = checkStep(recipe, False, step)
+            step = checkStep(recipe, False, step, False)
             print("")
             print("Step " + str(step + 1) + ":")
             print(recipe.instructions_list[step])
