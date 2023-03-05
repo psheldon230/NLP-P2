@@ -34,16 +34,21 @@ class RECIPE:
             self.parsed_instructions.append(parsedIndex)
     def time_Parse(self, string):
         #takes a string as input, parses, and returns a time value for the current instruction
-        return "9 seconds"
+        time = test.get_time(string)
+        if time == []:
+            return "There is no specific time limit, but there might be extra notable signs to tell you when to stop. Ask for extra information to see."
+        else:
+            return ("You should do this for about: " + time[0])
+
     def cookingAction_Parse(self, string):
          #takes a string as input, parses, and returns a cooking action for the current instruction
          return test.get_verb2(string)
     def quantity_Parse(self, string):
         return "7 pounds"
     def ingredient_Parse(self, string):
-        return test.find_ingredients(string)
+        return test.find_ingredients(string,self.scraper.ingredients())
     def tool_Parse(self, string):
-        return test.get_pps(string)
+        return test.get_tools(string)
     def seperate_instruction(self, instructions):
         oldList = instructions
         seperatedList = []
