@@ -34,7 +34,7 @@ def checkStep(recipe, next, curr, back):
         looking = True
         while looking:
             if not(next) and not(back):
-                step = int(input("What step would you like to see? Please enter a number ")) - 1
+                step = int(input("What step would you like to see? Please enter a number: ")) - 1
             elif back:
                 step = curr - 1
             else:
@@ -100,7 +100,7 @@ while True:
         print(recipe.instructions_list[step])
     while unchanged:
         print("")
-        question = input("What would you like to know? You can ask things like next step, show all steps, show the cooking ingredients, or how much do I need ")
+        question = input("What would you like to know? You can ask things like next step, show all steps, show the cooking ingredients, or how much do I need: ")
         print("")
         if question.__contains__("next step"):
             step = checkStep(recipe, True, step, False)
@@ -125,6 +125,16 @@ while True:
             print(recipe.instructions_list[step])
         elif question == "Change Recipe" or question == "change recipe" or question == "Change recipe":
             unchanged = False
+        elif question.__contains__("How do I do that") or question.__contains__("how do"):
+            string = recipe.instructions_list[step]
+            string = string.replace(" ", "+")
+            print("I found this on YouTube to answer your question: ")
+            print("https://www.youtube.com/results?search_query=how+do+I+" + string)
+        elif question.__contains__("How do I") or question.__contains__("how do i") or question.__contains__("how do"):
+            question = question.replace(" ", "+")
+            print("I found this on YouTube to answer your question: ")
+            print("https://www.youtube.com/results?search_query=" + question)
+
         elif question == "exit":
             exit()
         else:
