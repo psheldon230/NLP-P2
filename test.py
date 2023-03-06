@@ -12,7 +12,73 @@ cooking_verbs = ["add","break","boil","blend","bake","barbecue","cut","cover","c
                  "sift","toss","turn off","tenderize","taste","toast","weigh","whisk","wash","combine","separate",
                  "cook","serve","transfer","move","heat","set","reserve"]
 
-
+cooking_units = [
+    'teaspoon', 'teaspoons', 
+    'tablespoon', 'tablespoons', 
+    'cup', 'cups', 
+    'fluid', 'fluids', 
+    'ounce', 'ounces', 
+    'pint', 'pints', 
+    'quart', 'quarts', 
+    'gallon', 'gallons',
+    'pound', 'pounds', 
+    'milliliter', 'milliliters',
+    'liter', 'liters', 
+    'milligram', 'milligrams', 
+    'gram', 'grams',
+    'kilogram', 'kilograms', 
+    'millimeter', 'millimeters', 
+    'centimeter', 'centimeters', 
+    'meter', 'meters', 
+    'square', 'squares', 
+    'foot', 'feet', 
+    'inch', 'inches',
+    'cubic', 'cubics', 
+    'pinch', 'pinches', 
+    'dash', 'dashes', 
+    'drop', 'drops', 
+    'smidgen', 'smidgens', 
+    'scruple', 'scruples', 
+    'coffeespoon', 'coffeespoons', 
+    'deciliter', 'deciliters', 
+    'hectoliter', 'hectoliters', 
+    'barrel', 'barrels', 
+    'hogshead', 'hogsheads',
+    'cupcake', 'cupcakes', 
+    'jigger', 'jiggers', 
+    'pony', 'ponies', 
+    'shot', 'shots', 
+    'drachm', 'drachms', 
+    'tenth', 'tenths', 
+    'firkin', 'firkins', 
+    'gill', 'gills', 
+    'pottle', 'pottles', 
+    'quart', 'quarts', 
+    'seam', 'seams', 
+    'stere', 'steres', 
+    'strike', 'strikes', 
+    'peck', 'pecks', 
+    'bushel', 'bushels', 
+    'milliequivalent', 'milliequivalents', 
+    'millicurie', 'millicuries', 
+    'millilitre', 'millilitres', 
+    'dekalitre', 'dekalitres', 
+    'petalitre', 'petalitres', 
+    'micrometre', 'micrometres', 
+    'megagram', 'megagrams', 
+    'kilometer', 'kilometers', 
+    'yard', 'yards', 
+    'fathom', 'fathoms', 
+    'mile', 'miles', 
+    'nauticalmile', 'nauticalmiles', 
+    'gramforce', 'gramforces', 
+    'kilopascal', 'kilopascals', 
+    'atmosphere', 'atmospheres', 
+    'pascal', 'pascals', 
+    'poundforce', 'poundforces', 
+    'newton', 'newtons', 
+    'dyne', 'dynes'
+]
 #if empty its previous ingredients
 def find_ingredients(instruction,ingredients):
     step_ingredients = []
@@ -82,4 +148,18 @@ def get_verb2(instruction):
 
     return verbs
 
-
+def get_quantity(instruction_str, ingredients_list):
+    ing_list = find_ingredients(instruction_str, ingredients_list)
+    ingredients = []
+    for ing in ing_list:
+        quantity = None
+        unit = None
+        doc = nlp(ing)
+        for token in doc:
+            if token.pos_ == "NUM" and token.i < len(doc) - 1:
+                quantity = token
+                if doc[token.i + 1].text.lower() in cooking_units:
+                    unit = doc[token.i + 1]
+        ingredients.append({"quantity": quantity, "unit": unit})
+    return ingredients
+    

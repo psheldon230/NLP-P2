@@ -21,7 +21,19 @@ def handleQuestion(index, recipe, step):
             print(action)
         print("")
     if index == 2:
-         print(recipe.parsed_instructions[step].quantity)
+         print("Step " + str(step+ 1) + " ingredient amounts: ")
+         ran = False
+         for elem in recipe.parsed_instructions[step].quantity:
+             if elem['quantity'] != None and elem['unit'] != None:
+                 print(str(elem['quantity']) + " " + str(elem['unit']))
+                 ran = True
+         if not(ran):
+             print("This step has no specific ingredient amount.")
+             print("")
+            
+        
+            
+              
     if index == 3:
          print(recipe.parsed_instructions[step].time)
     if index == 4:
@@ -29,12 +41,21 @@ def handleQuestion(index, recipe, step):
         for tool in recipe.parsed_instructions[step].tool:
             print(tool)
         print("")
-
+def get_step():
+     looking = True
+     while looking:
+            try:
+                step = int(input("What step would you like to see? Please enter a number: ")) - 1
+                looking = False
+            except:
+                print("Please enter an valid number")
+                looking = True
+     return step
 def checkStep(recipe, next, curr, back):
         looking = True
         while looking:
             if not(next) and not(back):
-                step = int(input("What step would you like to see? Please enter a number: ")) - 1
+                step = get_step()
             elif back:
                 step = curr - 1
             else:
@@ -84,15 +105,18 @@ while True:
     recipe = RECIPE(url)
     print("Yum! Thats a great choice!")
     print("Let's make " + recipe.scraper.title() + "!")
+    print("")
     yorn = input("Would you like to see all ingredients? ")
-    if yorn.__contains__("y") or yorn.__contains__("all"):
+    if yorn.__contains__("y") or yorn.__contains__("all") or yorn.__contains__("sure"):
         print("Here is what you'll need: ")
         print_ingredients(recipe)
     else:
         print("Okay!")
     start = input("Would you like to see all the instructions? Or go step by step? ")
     if start.__contains__("all"):
+        print("")
         print_instructions(recipe)
+        print("")
     elif start.__contains__("step"):
         step = checkStep(recipe, False, step, False)
         print("")
@@ -100,7 +124,7 @@ while True:
         print(recipe.instructions_list[step])
     while unchanged:
         print("")
-        question = input("What would you like to know? You can ask things like next step, show all steps, show the cooking ingredients, or how much do I need: ")
+        question = input("What would you like to know? You can ask things like next step, show all steps, show ingredients for this step, or how much do I need, or how do I do that: ")
         print("")
         if question.__contains__("next step"):
             step = checkStep(recipe, True, step, False)
@@ -114,9 +138,11 @@ while True:
             print(recipe.instructions_list[step])
         elif question.__contains__("all steps"):
             print_instructions(recipe)
+            print("")
             step = 0
         elif question.__contains__("all ingredients"):
             print_ingredients(recipe)
+            print("")
             step = 0
         elif question.__contains__("step"):
             step = checkStep(recipe, False, step, False)

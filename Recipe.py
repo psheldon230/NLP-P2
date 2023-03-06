@@ -44,7 +44,7 @@ class RECIPE:
          #takes a string as input, parses, and returns a cooking action for the current instruction
          return test.get_verb2(string)
     def quantity_Parse(self, string):
-        return "7 pounds"
+        return test.get_quantity(string, self.scraper.ingredients())
     def ingredient_Parse(self, string):
         return test.find_ingredients(string,self.scraper.ingredients())
     def tool_Parse(self, string):
