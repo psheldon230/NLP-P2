@@ -1,3 +1,6 @@
+From Peter Sheldon and Aliyah Tenner
+
+
 Hello! Welcome to our recipe bot, Chefly! Chefly is here to lead you through all your recipe needs. 
 
 Before you can start, there are a few things you need to get Chefly up and running:
