@@ -113,7 +113,7 @@ def get_time(instruction):
 #get tools
 def get_tools(instruction):
     doc = nlp(instruction)
-    prepositions = ["in", "on", "from","into","with"]
+    prepositions = ["in", "on","into"]
     pps = []
     for token in doc:
         # Try this with other parts of speech for different subtrees.
