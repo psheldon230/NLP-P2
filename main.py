@@ -48,6 +48,7 @@ def handleQuestion(index, recipe, step):
         print("Step " + str(step+ 1) + " tool: ")
         for tool in recipe.parsed_instructions[step].tool:
             printed = True
+            print(tool)
         print("")
         if not(printed):
             print("Please reference the tools from the previous step.")
