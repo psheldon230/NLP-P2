@@ -1,5 +1,3 @@
-from bs4 import BeautifulSoup
-import requests
 from recipe_scrapers import scrape_me
 import spacy
 nlp = spacy.load("en_core_web_sm")
@@ -10,7 +8,7 @@ cooking_verbs = ["add","break","boil","blend","bake","barbecue","cut","cover","c
                  "marinate","peel","pour","put",'remove',"roast","refridgerate","roll","rinse","stir",
                  "scramble","sprinkle","squeeze","spread","steam","simmer","slice","saute","sip","sharpen",
                  "sift","toss","turn off","tenderize","taste","toast","weigh","whisk","wash","combine","separate",
-                 "cook","serve","transfer","move","heat","set","reserve"]
+                 "cook","serve","transfer","move","heat","set","reserve","season","peel"]
 
 cooking_units = [
     'teaspoon', 'teaspoons', 

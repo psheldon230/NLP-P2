@@ -1,6 +1,5 @@
-import recipe_scrapers
 from Recipe import RECIPE
-from  parsedinstruction import parsedInstruction
+from parsedinstruction import parsedInstruction
 
 keywordList = [["ingredient", "ingredients"], ["cooking action", "action", "verb"], ["quantity", "much", "many", "amount"], ["time", "hours", "minutes", "long"], ["cookware", "tool", "kitchenware", "item", "use"]]
 
@@ -136,7 +135,7 @@ while True:
     print("Yum! Thats a great choice!")
     print("Let's make " + recipe.scraper.title() + "!")
     print("")
-    print("-----------------------------------------------")
+    print("-------------------------------------------------------------------------")
     yorn = input("Would you like to see all ingredients? ")
     if yorn.__contains__("y") or yorn.__contains__("all") or yorn.__contains__("sure"):
         print("Here is what you'll need: ")
@@ -155,7 +154,7 @@ while True:
         print("Step " + str(step + 1) + ":")
         print(recipe.instructions_list[step])
     while unchanged:
-        print("-------------------------------------------------------------------------------------------------")
+        print("-------------------------------------------------------------------------")
         question = input("What would you like to know? You can ask things like next step, show all steps, show ingredients for this step, or how much do I need, or how do I do that: ")
         print("")
         if question.__contains__("next step"):
