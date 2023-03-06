@@ -11,14 +11,23 @@ def process_input():
 
 def handleQuestion(index, recipe, step):
     if index == 0:
+        seen = False
         print("Step " + str(step+ 1) + " ingredient(s): ")
         for ingredient in recipe.parsed_instructions[step].ingredient:
             print(ingredient)
+            seen = True
+        if not(seen):
+            print("This step has no specific ingredients.")
         print("")
+
     if index == 1:
+        saw = False
         print("Step " + str(step+ 1) + " cooking action: ")
         for action in recipe.parsed_instructions[step].cookingAction:
             print(action)
+            saw = True
+        if not(saw):
+            print("This step has no specific cooking action.")
         print("")
     if index == 2:
          print("Step " + str(step+ 1) + " ingredient amounts: ")
@@ -32,15 +41,18 @@ def handleQuestion(index, recipe, step):
              print("")
             
         
-            
-              
     if index == 3:
          print(recipe.parsed_instructions[step].time)
     if index == 4:
+        printed = False
         print("Step " + str(step+ 1) + " tool: ")
         for tool in recipe.parsed_instructions[step].tool:
-            print(tool)
+            printed = True
         print("")
+        if not(printed):
+            print("Please reference the tools from the previous step.")
+            print("")
+
 def get_step():
      looking = True
      while looking:
