@@ -16,6 +16,7 @@ cooking_units = [
     'teaspoon', 'teaspoons', 
     'tablespoon', 'tablespoons', 
     'cup', 'cups', 
+    'egg', 'eggs',
     'fluid', 'fluids', 
     'ounce', 'ounces', 
     'pint', 'pints', 
