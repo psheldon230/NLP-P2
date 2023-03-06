@@ -160,7 +160,14 @@ while True:
             question = question.replace(" ", "+")
             print("I found this on YouTube to answer your question: ")
             print("https://www.youtube.com/results?search_query=" + question)
-
+        elif question.__contains__("what is"):
+            question = question.replace(" ", "+")
+            print("This might answer your question: ")
+            print("https://www.google.com/search?q=" + question)
+        elif question.__contains__("what can I substitute"):
+             question = question.replace(" ", "+")
+             print("This might answer your substitution question: ")
+             print("https://www.google.com/search?q=" + question)
         elif question == "exit":
             exit()
         else:
