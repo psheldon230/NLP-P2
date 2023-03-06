@@ -102,7 +102,24 @@ def print_ingredients(recipe):
             print("")
             print(ingredient)
     
-
+def show_help():
+    print("")
+    print("---------------------------------------------------------------------")
+    print("Welcome to Chefly! I am your virtual recipe assistant to help with all things cooking related.")
+    print("")
+    print("First, choose a recipe from any well known cooking site online.")
+    print("Next, you can choose to examine the whole recipe or go step by step")
+    print("")
+    print("Whole Recipe:")
+    print("You can always ask questions about the whole recipe, such as:\n-show me all ingredients\n-show me all instructions")
+    print("")
+    print("Step by Step:")
+    print("Once you are on a particular step, you can ask things like:\n-what ingredients do I need?\n-how long will that take?\n-what is the cooking action in this step?\n-how much do I need?\n-what tool do I need in this step?\n")
+    print("")
+    print("General Queries:")
+    print("At any time, you can questions like:\n-how do I do that?\n-what can I substitute <ingredient> for\n-how do I cook chicken?\n")
+    print("You can also say change recipe at any time, or exit to stop the chat.")
+    print("---------------------------------------------------------------------")
 
 
     
@@ -110,7 +127,7 @@ def print_ingredients(recipe):
 while True:
     unchanged = True
     if firstTime:
-        url = input("Welcome to our Recipe Chat Bot! Enter a Recipe URL to get cooking!" )
+        url = input("Hi I'm Chefly! Enter a Recipe URL to get cooking!" )
         firstTime = False
     else:
         url = input("Please enter another recipe URL: ")
@@ -119,12 +136,14 @@ while True:
     print("Yum! Thats a great choice!")
     print("Let's make " + recipe.scraper.title() + "!")
     print("")
+    print("-----------------------------------------------")
     yorn = input("Would you like to see all ingredients? ")
     if yorn.__contains__("y") or yorn.__contains__("all") or yorn.__contains__("sure"):
         print("Here is what you'll need: ")
         print_ingredients(recipe)
     else:
         print("Okay!")
+    print("-------------------------------------------------------------------------")
     start = input("Would you like to see all the instructions? Or go step by step? ")
     if start.__contains__("all"):
         print("")
@@ -136,7 +155,7 @@ while True:
         print("Step " + str(step + 1) + ":")
         print(recipe.instructions_list[step])
     while unchanged:
-        print("")
+        print("-------------------------------------------------------------------------------------------------")
         question = input("What would you like to know? You can ask things like next step, show all steps, show ingredients for this step, or how much do I need, or how do I do that: ")
         print("")
         if question.__contains__("next step"):
@@ -173,7 +192,7 @@ while True:
             question = question.replace(" ", "+")
             print("I found this on YouTube to answer your question: ")
             print("https://www.youtube.com/results?search_query=" + question)
-        elif question.__contains__("what is"):
+        elif question.__contains__("what is a"):
             question = question.replace(" ", "+")
             print("This might answer your question: ")
             print("https://www.google.com/search?q=" + question)
@@ -183,6 +202,8 @@ while True:
              print("https://www.google.com/search?q=" + question)
         elif question == "exit":
             exit()
+        elif question == "help":
+            show_help()
         else:
             answered = False
             for i in range(len(keywordList)):
