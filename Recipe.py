@@ -15,6 +15,8 @@ class RECIPE:
                 url = input('Please try another recipe: ')
                 looking = True
         self.scraper = scrape_me(url)
+        self.ingredients_list = self.scraper.ingredients()
+        self.old_ingredients = self.scraper.ingredients()
         self.parsed_instructions = []
         self.instructions_list = self.seperate_instruction(self.scraper.instructions_list())
         self.populate()

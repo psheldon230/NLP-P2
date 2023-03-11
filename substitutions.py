@@ -2,16 +2,17 @@
 
 vegan_substitutions = {
     "dairy": {
+        "buttermilk": "curdled soymilk",
         "butter": "vegan margarine",
         "milk": "almond milk",
         "heavy cream": "coconut cream",
         "sour cream": "vegan sour cream",
         "yogurt": "coconut yogurt",
-        "cheese": "vegan cheese",
-        "buttermilk": "curdled soymilk"
+        "cheese": "vegan cheese"
     },
     "eggs": {
         "eggs": "tofu",
+        "egg": "tofu",
         "mayonnaise": "vegan mayonnaise"
     },
     "meat": {
@@ -202,6 +203,85 @@ italian_substitutions = {
     "baking powder": "yeast",
     "baking soda": "yeast",
 }
+def nonToVeg(recipe):
+    oldIngredients = recipe.ingredients_list
+    dairyList = vegan_substitutions["dairy"].keys()
+    eggList = vegan_substitutions["eggs"].keys()
+    meatList = vegan_substitutions["meat"].keys()
+    seafoodList = vegan_substitutions["seafood"].keys()
+    miscList = vegan_substitutions["misc"].keys()
+
+    #replace dairy
+    for i in range(len(oldIngredients)):
+        for item in dairyList:
+            oldIngredients[i] = oldIngredients[i].lower()
+            if oldIngredients[i].__contains__(item):
+                oldIngredients[i] = oldIngredients[i].replace(item, vegan_substitutions["dairy"][item])
+                break
+   
+   #replace eggs
+    for i in range(len(oldIngredients)):
+        for item in eggList:
+            oldIngredients[i] = oldIngredients[i].lower()
+            if oldIngredients[i].__contains__(item):
+                oldIngredients[i] = oldIngredients[i].replace(item, vegan_substitutions["eggs"][item])
+                break
+    #replace meat
+    for i in range(len(oldIngredients)):
+        for item in meatList:
+            oldIngredients[i] = oldIngredients[i].lower()
+            if oldIngredients[i].__contains__(item):
+                oldIngredients[i] = oldIngredients[i].replace(item, vegan_substitutions["meat"][item])
+                break
+
+    #replace seafood
+    for i in range(len(oldIngredients)):
+        for item in seafoodList:
+            oldIngredients[i] = oldIngredients[i].lower()
+            if oldIngredients[i].__contains__(item):
+                oldIngredients[i] = oldIngredients[i].replace(item, vegan_substitutions["seafood"][item])
+                break
+
+    for i in range(len(oldIngredients)):
+        for item in miscList:
+            oldIngredients[i] = oldIngredients[i].lower()
+            if oldIngredients[i].__contains__(item):
+                oldIngredients[i] = oldIngredients[i].replace(item, vegan_substitutions["misc"][item])
+                break 
+    return oldIngredients
+
+
+
+
+
+def vegToNon(recipe):
+    pass
+def unToHealth(recipe):
+    pass
+
+def healthToUn(recipe):
+    pass
+
+def makeItalian(recipe):
+    pass
+
+def makeMexican(recipe):
+    pass
+
+def compare_lists(recipe, new):
+    old = recipe.old_ingredients
+    for i in range(len(old)):
+        if old[i] == new[i]:
+            print(old[i])
+            print("")
+        else:
+            print(old[i] + " ------> " + new[i])
+            print("")
+    
+        
+
+
+
 
 
 

@@ -1,5 +1,6 @@
 from Recipe import RECIPE
 from parsedinstruction import parsedInstruction
+import substitutions
 
 keywordList = [["ingredient", "ingredients"], ["cooking action", "action", "verb"], ["quantity", "much", "many", "amount"], ["time", "hours", "minutes", "long"], ["cookware", "tool", "kitchenware", "item", "use"]]
 
@@ -52,13 +53,53 @@ def handleQuestion(index, recipe, step):
         if not(printed):
             print("Please reference the tools from the previous step.")
             print("")
-
+def substitute_handler(substitute, recipe):
+    subbed = True
+    while subbed:  
+        if substitute == 1:
+            recipe.ingredients_list = substitutions.nonToVeg(recipe)
+            print("Subbed to Vegan!")
+            subbed = False
+        elif substitute == 2:
+            substitutions.vegToNon(recipe)
+            subbed = False
+        elif substitute == 3:
+            substitutions.unToHealth(recipe)
+            subbed = False
+        elif substitute == 4:
+            substitutions.healthToUn(recipe)
+            subbed = False
+        elif substitute == 5:
+            substitutions.makeItalian(recipe)
+            subbed = False
+        elif substitute == 5:
+            substitutions.makeMexican(recipe)
+            subbed = False
+        else:
+            subbed = True
+            print("Invalid Substitution")
+            substitute = get_subst()
+    
 def get_step():
      looking = True
      while looking:
             try:
                 step = int(input("What step would you like to see? Please enter a number: ")) - 1
                 looking = False
+            except:
+                print("Please enter an valid number")
+                looking = True
+     return step
+def get_subst():
+     looking = True
+     while looking:
+            try:
+                step = int(input("What substitution would you like to see? Please enter a number: "))
+                if step >=7 or step <= 0:
+                    print("Please enter a valid substitution!")
+                    looking = True
+                else:
+                    looking = False
             except:
                 print("Please enter an valid number")
                 looking = True
@@ -97,7 +138,7 @@ def print_instructions(recipe):
             print(step)
             counter += 1
 def print_ingredients(recipe):
-      for  ingredient in recipe.scraper.ingredients():
+      for  ingredient in recipe.ingredients_list:
             print("")
             print(ingredient)
     
@@ -153,6 +194,17 @@ while True:
         print("")
         print("Step " + str(step + 1) + ":")
         print(recipe.instructions_list[step])
+    print("-------------------------------------------------------------------------")
+    substitute = input("Would you like to make a substitution?")
+    if substitute.__contains__("y"):
+        print("")
+        print("What would you like to substitute? You can choose one of the following: ")
+        print("[1] Non-Vegan to Vegan, [2] Vegan to Non Vegan, [3] Unhealthy to healthy, [4] Healthy to unhealthy, [5]Make this Italian Style, [6] Make this Mexican Style")
+        substitute = get_step()
+        substitute_handler(substitute, recipe)
+        print("Here are the new Ingredients you'll need: ")
+        substitutions.compare_lists(recipe, recipe.ingredients_list)
+
     while unchanged:
         print("-------------------------------------------------------------------------")
         question = input("What would you like to know? You can ask things like next step, show all steps, show ingredients for this step, or how much do I need, or how do I do that: ")
