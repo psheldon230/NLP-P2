@@ -2,8 +2,15 @@ from recipe_scrapers import scrape_me
 from parsedinstruction import parsedInstruction
 import instructionInfo
 
-class RECIPE:
 
+#class to represent a whole recipe. Holds:
+#scraper - the info returned by the scraper once given a recipe url
+#ingredients_list - all the ingredients needed for the entire recipe
+#old_ingredients - list that holds ingredients in case a substitution is performed
+#parsed_instructions - list that is updated using populate, which holds parsed info for each step in instructions_list
+#instructions_list - unparsed steps for the entire recipe
+
+class RECIPE:
     def __init__(self, url):
         self
         looking = True
@@ -43,11 +50,16 @@ class RECIPE:
          #takes a string as input, parses, and returns a cooking action for the current instruction
          return instructionInfo.get_verb2(string)
     def quantity_Parse(self, string):
+        #takes a string as input, parses, and returns quantity of ingredients for the current instruction
         return instructionInfo.get_quantity(string, self.scraper.ingredients())
     def ingredient_Parse(self, string):
+        #takes a string as input, parses, and returns ingredients for the current instruction
         return instructionInfo.find_ingredients(string,self.scraper.ingredients())
     def tool_Parse(self, string):
+        #takes a string as input, parses, and returns tools needed for the current instruction
         return instructionInfo.get_tools(string)
+    
+    #splits full directions into steps by sentences 
     def seperate_instruction(self, instructions):
         oldList = instructions
         seperatedList = []
@@ -57,7 +69,6 @@ class RECIPE:
                  seperatedList.append(i)
 
                  
-            #instructions[i] = instructions[i].replace('\n',"")
         ret_list = [x for x in seperatedList if x != ""]
         formated = [x[1:] if x.startswith(" ") else x for x in ret_list]
         return formated

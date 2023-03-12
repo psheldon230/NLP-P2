@@ -2,6 +2,7 @@ from recipe_scrapers import scrape_me
 import spacy
 nlp = spacy.load("en_core_web_sm")
 
+#common cooking verbs
 cooking_verbs = ["add","break","boil","blend","bake","barbecue","cut","cover","crush","cool",
                  "chop","dip","dice","decorate","drain","fry","flip","grind","grate","grill",
                  "heat","knead","layer","light","measure","mix","microwave","mash","melt","mince"
@@ -10,6 +11,7 @@ cooking_verbs = ["add","break","boil","blend","bake","barbecue","cut","cover","c
                  "sift","toss","turn off","tenderize","taste","toast","weigh","whisk","wash","combine","separate",
                  "cook","serve","transfer","move","heat","set","reserve","season","peel"]
 
+#common cooking units
 cooking_units = [
     'teaspoon', 'teaspoons', 
     'tablespoon', 'tablespoons', 
@@ -78,7 +80,9 @@ cooking_units = [
     'newton', 'newtons', 
     'dyne', 'dynes'
 ]
-#if empty its previous ingredients
+
+#uses noun chunk parsing to get ingredients for a particular step
+#if empty its previous step's ingredients
 def find_ingredients(instruction,ingredients):
     step_ingredients = []
     doc =  nlp(instruction)
@@ -90,7 +94,7 @@ def find_ingredients(instruction,ingredients):
     return step_ingredients
 
 
-#get time if any
+#get time limit in step if any
 def get_time(instruction):
     doc = nlp(instruction)
     time_adjectives = ['minute', 'minutes', 'hour', 'hours', 'second', 'seconds']
@@ -109,7 +113,8 @@ def get_time(instruction):
                         
     return time_limit_phrases
 
-#get tools
+#get tools in step if any using preposition POS 
+#if empty its previous step's tools
 def get_tools(instruction):
     doc = nlp(instruction)
     prepositions = ["in", "on","into"]
@@ -128,7 +133,6 @@ def get_extra(instruction):
     prepositions = ["at", "to", "until","till"]
     pps = []
     for token in doc:
-        # Try this with other parts of speech for different subtrees.
         if token.text in prepositions:
             pp = ' '.join([tok.orth_ for tok in token.subtree])
             pps.append(pp)
@@ -136,7 +140,7 @@ def get_extra(instruction):
     return pps
 
 
-
+#gets cooking action in the step if any
 def get_verb2(instruction):
     doc =  nlp(instruction)
     verbs = []
@@ -147,6 +151,8 @@ def get_verb2(instruction):
 
     return verbs
 
+
+#gets the amount of an ingredient you need in a step, if any
 def get_quantity(instruction_str, ingredients_list):
     ing_list = find_ingredients(instruction_str, ingredients_list)
     ingredients = []

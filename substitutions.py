@@ -1,3 +1,5 @@
+
+#common vegan substitutions
 vegan_substitutions = {
     "dairy": {
         "buttermilk": "curdled soymilk",
@@ -43,6 +45,8 @@ vegan_substitutions = {
     }
 
 }
+
+#common nonvegan substitutions
 nonVegan_substitutions = {
      "meat": {
         "seitan": "chicken",
@@ -86,7 +90,7 @@ nonVegan_substitutions = {
     }
 }
 
-
+#common healthy substitutions
 healthy_substitutions = {
     "brown sugar": "coconut sugar",
     "sugar": "honey",
@@ -118,6 +122,8 @@ healthy_substitutions = {
     "cream cheese": "Greek yogurt",
     "heavy cream": "coconut cream"
 }
+
+#common unhealthy substitutions
 unhealthy_substitutions = {
     "coconut sugar": "brown sugar",
     "honey": "sugar",
@@ -142,6 +148,8 @@ unhealthy_substitutions = {
     "Greek yogurt": "cream cheese",
     "coconut cream": "heavy cream"
 }
+
+#mexican cuisine substitutions
 mexican_substitutions = {
     "olive oil": "vegetable oil",
     "balsamic vinegar": "lime juice",
@@ -204,7 +212,7 @@ mexican_substitutions = {
     "baking soda": "soda bicarbonato",
     "yeast": "levadura"
 }
-
+#italian cuisine substitutions
 italian_substitutions = {
     "olive oil": "vegetable oil",
     "balsamic vinegar": "red wine vinegar",
@@ -269,6 +277,9 @@ italian_substitutions = {
     "baking powder": "yeast",
     "baking soda": "yeast",
 }
+
+
+#goes through recipe ingredients list and makes vegan substitutions using list
 def nonToVeg(recipe):
     oldIngredients = recipe.ingredients_list
     dairyList = vegan_substitutions["dairy"].keys()
@@ -316,6 +327,7 @@ def nonToVeg(recipe):
                 break 
     return oldIngredients
 
+#goes through recipe ingredients list and makes nonvegan substitutions using list
 def vegToNon(recipe):
     oldIngredients = recipe.ingredients_list
     dairyList = nonVegan_substitutions["dairy"].keys()
@@ -353,6 +365,7 @@ def vegToNon(recipe):
                 break 
     return oldIngredients
 
+#goes through recipe ingredients list and makes healthy substitutions using list
 def unToHealth(recipe):
     healthyList = healthy_substitutions.keys()
     oldIngredients = recipe.ingredients_list
@@ -366,10 +379,11 @@ def unToHealth(recipe):
 
     return oldIngredients
 
+#goes through recipe ingredients list and makes unhealthy substitutions using list
 def healthToUn(recipe):
     unhealthyList = unhealthy_substitutions.keys()
     oldIngredients = recipe.ingredients_list
-    #replace unhealhty items
+    #replace healhty items
     for i in range(len(oldIngredients)):
         for item in unhealthyList:
             oldIngredients[i] = oldIngredients[i].lower()
@@ -379,6 +393,8 @@ def healthToUn(recipe):
 
     return oldIngredients
 
+
+#goes through recipe ingredients list and makes italian substitutions using list
 def makeItalian(recipe):
     italianList = italian_substitutions.keys()
     oldIngredients = recipe.ingredients_list
@@ -392,6 +408,7 @@ def makeItalian(recipe):
 
     return oldIngredients
 
+#goes through recipe ingredients list and makes mexican substitutions using list
 def makeMexican(recipe):
     mexicanList = mexican_substitutions.keys()
     oldIngredients = recipe.ingredients_list
@@ -405,12 +422,17 @@ def makeMexican(recipe):
         
     return oldIngredients
 
+#compares new substituted ingredients list with old ingredients list
 def compare_lists(recipe, new):
     old = recipe.old_ingredients
     for i in range(len(old)):
+
+        #prints just the old ingredients if it is the same
         if old[i] == new[i]:
             print(old[i])
             print("")
+        
+        #else print the old ingredients and what it was substituted to
         else:
             print(old[i] + " ------> " + new[i])
             print("")
