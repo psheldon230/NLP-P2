@@ -1,5 +1,3 @@
-
-
 vegan_substitutions = {
     "dairy": {
         "buttermilk": "curdled soymilk",
@@ -49,7 +47,9 @@ nonVegan_substitutions = {
      "meat": {
         "seitan": "chicken",
         "bean patties": "beef patties",
+        "vegan beef crumbles": "beef",
         "tempeh": "beef",
+        "vegetarian chicken substitute": "chicken",
         "tempeh bacon": "bacon",
         "veggie burger": "ground beef",
         "black bean burger": "ground beef",
@@ -61,7 +61,9 @@ nonVegan_substitutions = {
     "dairy": {
         "curdled soymilk": "buttermilk",
         "vegan margarine": "butter",
+        "vegan butter": "butter",
         "almond milk": "milk",
+        "oat milk": "milk",
         "coconut cream": "heavy cream",
         "coconut oil": "butter",
         "vegan sour cream": "sour cream",
@@ -71,7 +73,8 @@ nonVegan_substitutions = {
     },
     "eggs": {
         "tofu": "egg(s)",
-        "vegan mayonnaise": "mayonnaise"
+        "vegan mayonnaise": "mayonnaise",
+        "egg substitute": "egg(s)"
     },
     "misc":
     {
@@ -82,6 +85,7 @@ nonVegan_substitutions = {
         "vegatable broth": "chicken broth",
     }
 }
+
 
 healthy_substitutions = {
     "brown sugar": "coconut sugar",
