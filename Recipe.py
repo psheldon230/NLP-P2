@@ -51,10 +51,10 @@ class RECIPE:
          return instructionInfo.get_verb2(string)
     def quantity_Parse(self, string):
         #takes a string as input, parses, and returns quantity of ingredients for the current instruction
-        return instructionInfo.get_quantity(string, self.old_ingredients())
+        return instructionInfo.get_quantity(string, self.old_ingredients)
     def ingredient_Parse(self, string):
         #takes a string as input, parses, and returns ingredients for the current instruction
-        return instructionInfo.find_ingredients(string,self.old_ingredients())
+        return instructionInfo.find_ingredients(string, self.old_ingredients)
     def tool_Parse(self, string):
         #takes a string as input, parses, and returns tools needed for the current instruction
         return instructionInfo.get_tools(string)

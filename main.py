@@ -8,7 +8,7 @@ unchanged = True
 firstTime = True
 #Function to return an answer to questions about a specific recipe step, ie: what is the cooking action in this step?
 #or questions like: what are the ingredients in this step?
-def handleQuestion(index, recipe, step):
+def handleQuestion(index, recipe, step, subd):
     #For questions about a step's ingredients
     if index == 0:
         seen = False
@@ -18,6 +18,9 @@ def handleQuestion(index, recipe, step):
             seen = True
         if not(seen):
             print("This step has no specific ingredients.")
+        elif subd:
+            print("")
+            print("*Remember to replace substituted ingredients for each step when necessary*")
         print("")
     #For questions about a step's cooking actions
     if index == 1:
@@ -40,6 +43,9 @@ def handleQuestion(index, recipe, step):
          if not(ran):
              print("This step has no specific ingredient amount.")
              print("")
+         elif subd:
+            print("")
+            print("*Remember to replace substituted ingredients for each step when necessary*")
             
     #For handling questions about a particular step's time    
     if index == 3:
@@ -185,6 +191,7 @@ def show_help():
 #Outer loop in User Interface
 #Here, users can do things like enter a URL, make a substitution, see all ingredients, or see all steps
 while True:
+    subd = False
     unchanged = True
     if firstTime:
         url = input("Hi I'm Chefly! Enter a Recipe URL to get cooking! " )
@@ -221,6 +228,7 @@ while True:
         print("Here are the new Ingredients you'll need: ")
         print("")
         substitutions.compare_lists(recipe, recipe.ingredients_list)
+        subd = True
     print("-------------------------------------------------------------------------")
     #Asks user if they want to see a list of all instructions, or examine one individually
     start = input("Would you like to see all the instructions? Or go step by step? ")
@@ -228,11 +236,17 @@ while True:
         print("")
         print_instructions(recipe)
         print("")
+        if subd:
+            print("*Remember to replace substituted ingredients for each step when necessary*")
+            print("")
     elif start.__contains__("step"):
         step = checkStep(recipe, False, step, False)
         print("")
         print("Step " + str(step + 1) + ":")
         print(recipe.instructions_list[step])
+        if subd:
+            print("*Remember to replace substituted ingredients for each step when necessary*")
+            print("")
   #Inner loop of Chefly, where users can see all steps, all ingredients, or navigate specific steps
   # and see information about each specific one 
     while unchanged:
@@ -247,17 +261,26 @@ while True:
             print("")
             print("Step " + str(step + 1) + ":")
             print(recipe.instructions_list[step])
+            if subd:
+                print("*Remember to replace substituted ingredients for each step when necessary*")
+                print("")
         #If user says previous step, or back step, changes step count to - 1
         elif question.__contains__("previous") or question.__contains__("back"):
             step = checkStep(recipe, False, step, True)
             print("")
             print("Step " + str(step + 1) + ":")
             print(recipe.instructions_list[step])
+            if subd:
+                print("*Remember to replace substituted ingredients for each step when necessary*")
+                print("")
         #Prints all steps
         elif question.__contains__("all steps"):
             print_instructions(recipe)
             print("")
             step = 0
+            if subd:
+                print("*Remember to replace substituted ingredients for each step when necessary*")
+                print("")
         #Prints all ingredients
         elif question.__contains__("all ingredients"):
             print_ingredients(recipe)
@@ -269,6 +292,9 @@ while True:
             print("")
             print("Step " + str(step + 1) + ":")
             print(recipe.instructions_list[step])
+            if subd:
+                print("*Remember to replace substituted ingredients for each step when necessary*")
+                print("")
         #If user wants to change recipe, sets inner loop variable to false to re start the outer loop
         elif question == "Change Recipe" or question == "change recipe" or question == "Change recipe":
             unchanged = False
@@ -306,7 +332,7 @@ while True:
             for i in range(len(keywordList)):
                 for j in range(len(keywordList[i])):
                     if question.__contains__(keywordList[i][j]):
-                        handleQuestion(i, recipe, step)
+                        handleQuestion(i, recipe, step, subd)
                         answered = True
                         break
             #If handle_question() has not been called, and for all other questions that haven't been handled,
