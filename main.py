@@ -196,10 +196,12 @@ while True:
         print(recipe.instructions_list[step])
     print("-------------------------------------------------------------------------")
     substitute = input("Would you like to make a substitution?")
-    if substitute.__contains__("y"):
+    if substitute.__contains__("y") or substitute.__contains__("sure"):
         print("")
         print("What would you like to substitute? You can choose one of the following: ")
+        print("")
         print("[1] Non-Vegan to Vegan, [2] Vegan to Non Vegan, [3] Unhealthy to healthy, [4] Healthy to unhealthy, [5]Make this Italian Style, [6] Make this Mexican Style")
+        print("")
         retval = get_subst()
         substitute_handler(retval, recipe)
         print("Here are the new Ingredients you'll need: ")

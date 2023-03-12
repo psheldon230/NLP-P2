@@ -49,7 +49,9 @@ nonVegan_substitutions = {
      "meat": {
         "seitan": "chicken",
         "bean patties": "beef patties",
+        "vegan beef crumbles": "beef",
         "tempeh": "beef",
+        "vegetarian chicken substitute": "chicken",
         "tempeh bacon": "bacon",
         "veggie burger": "ground beef",
         "black bean burger": "ground beef",
@@ -61,7 +63,9 @@ nonVegan_substitutions = {
     "dairy": {
         "curdled soymilk": "buttermilk",
         "vegan margarine": "butter",
+        "vegan butter": "butter",
         "almond milk": "milk",
+        "oat milk": "milk",
         "coconut cream": "heavy cream",
         "coconut oil": "butter",
         "vegan sour cream": "sour cream",
@@ -71,7 +75,8 @@ nonVegan_substitutions = {
     },
     "eggs": {
         "tofu": "egg(s)",
-        "vegan mayonnaise": "mayonnaise"
+        "vegan mayonnaise": "mayonnaise",
+        "egg substitute": "egg(s)"
     },
     "misc":
     {
@@ -297,7 +302,7 @@ def vegToNon(recipe):
     dairyList = nonVegan_substitutions["dairy"].keys()
     eggList = nonVegan_substitutions["eggs"].keys()
     meatList = nonVegan_substitutions["meat"].keys()
-    miscList = nonVegan_substitutions["misc"].keys()
+    miscList = nonVegan_substitutions["misc"].keys() 
      #replace meat
     for i in range(len(oldIngredients)):
         for item in meatList:
