@@ -1,15 +1,15 @@
 from Recipe import RECIPE
 from parsedinstruction import parsedInstruction
 import substitutions
-
+#Keyword list to identify questions about a specific recipe's step
 keywordList = [["ingredient", "ingredients"], ["cooking action", "action", "verb"], ["quantity", "much", "many", "amount"], ["time", "hours", "minutes", "long"], ["cookware", "tool", "kitchenware", "item", "use"]]
 
 unchanged = True
 firstTime = True
-def process_input():
-    pass
-
+#Function to return an answer to questions about a specific recipe step, ie: what is the cooking action in this step?
+#or questions like: what are the ingredients in this step?
 def handleQuestion(index, recipe, step):
+    #For questions about a step's ingredients
     if index == 0:
         seen = False
         print("Step " + str(step+ 1) + " ingredient(s): ")
@@ -19,7 +19,7 @@ def handleQuestion(index, recipe, step):
         if not(seen):
             print("This step has no specific ingredients.")
         print("")
-
+    #For questions about a step's cooking actions
     if index == 1:
         saw = False
         print("Step " + str(step+ 1) + " cooking action: ")
@@ -29,6 +29,7 @@ def handleQuestion(index, recipe, step):
         if not(saw):
             print("This step has no specific cooking action.")
         print("")
+    #For questions about a step's quantity of ingredients
     if index == 2:
          print("Step " + str(step+ 1) + " ingredient amounts: ")
          ran = False
@@ -40,9 +41,10 @@ def handleQuestion(index, recipe, step):
              print("This step has no specific ingredient amount.")
              print("")
             
-        
+    #For handling questions about a particular step's time    
     if index == 3:
          print(recipe.parsed_instructions[step].time)
+    #For handling questions about a particular step's cookware
     if index == 4:
         printed = False
         print("Step " + str(step+ 1) + " tool: ")
@@ -53,37 +55,47 @@ def handleQuestion(index, recipe, step):
         if not(printed):
             print("Please reference the tools from the previous step.")
             print("")
+#Handles the user's request to substitute recipe, and calls the relevant method's in the
+#substitutions.py file to return a correct output
 def substitute_handler(substitute, recipe):
     subbed = True
     while subbed:  
+        #Handles Non-vegan to Vegan
         if substitute == 1:
             recipe.ingredients_list = substitutions.nonToVeg(recipe)
             print("Subbed to Vegan!")
             subbed = False
+        #Handles Vegan to Non-vegan
         elif substitute == 2:
             substitutions.vegToNon(recipe)
             subbed = False
+        #Handles Unhealthy to Healthy
         elif substitute == 3:
             recipe.ingredients_list = substitutions.unToHealth(recipe)
             print("Subbed to Healthy!")
             subbed = False
+        #Handles Healthy to Unhealthy
         elif substitute == 4:
             recipe.ingredients_list = substitutions.healthToUn(recipe)
             print("Subbed to Unhealthy!")
             subbed = False
+        #Handles Make Italian
         elif substitute == 5:
             recipe.ingredients_list = substitutions.makeItalian(recipe)
             print("Subbed to Italian!")
             subbed = False
+        #Handles Make Mexican
         elif substitute == 6:
             recipe.ingredients_list = substitutions.makeMexican(recipe)
             print("Subbed to Mexican!")
             subbed = False
+        #If User chooses an invalid number, lets them rechoose, and the loop continues to handle
+        #their request!
         else:
             subbed = True
             print("Invalid Substitution")
             substitute = get_subst()
-    
+#Function to gather step number input from user, if input is invalid number, lets user rechoose    
 def get_step():
      looking = True
      while looking:
@@ -94,6 +106,7 @@ def get_step():
                 print("Please enter an valid number")
                 looking = True
      return step
+#Lets user pick a number corresponding to substitution preference
 def get_subst():
      looking = True
      while looking:
@@ -108,6 +121,7 @@ def get_subst():
                 print("Please enter an valid number")
                 looking = True
      return step
+#Checks user's desired step to examine to see if it is valid, if not, lets user repick number
 def checkStep(recipe, next, curr, back):
         looking = True
         while looking:
@@ -133,7 +147,7 @@ def checkStep(recipe, next, curr, back):
                 print("Please choose a valid step!")
                 looking = True
         return step
-
+#prints and formats all instructions in recipe classes's instructions_list
 def print_instructions(recipe):
     counter = 1
     for step in recipe.instructions_list:
@@ -141,11 +155,12 @@ def print_instructions(recipe):
             print("Step " + str(counter) + ":")
             print(step)
             counter += 1
+#Just like print_instructions() but for ingredients
 def print_ingredients(recipe):
       for  ingredient in recipe.ingredients_list:
             print("")
             print(ingredient)
-    
+#Formats and prints the help section when called    
 def show_help():
     print("")
     print("---------------------------------------------------------------------")
@@ -167,7 +182,8 @@ def show_help():
 
 
     
-
+#Outer loop in User Interface
+#Here, users can do things like enter a URL, make a substitution, see all ingredients, or see all steps
 while True:
     unchanged = True
     if firstTime:
@@ -176,11 +192,13 @@ while True:
     else:
         url = input("Please enter another recipe URL: ")
     step = 0
+    #Creates Recipe class object
     recipe = RECIPE(url)
     print("Yum! Thats a great choice!")
     print("Let's make " + recipe.scraper.title() + "!")
     print("")
     print("-------------------------------------------------------------------------")
+    #Asks user if they want to see all ingredients, calls print_ingredients() if they do
     yorn = input("Would you like to see all ingredients? ")
     if yorn.__contains__("y") or yorn.__contains__("all") or yorn.__contains__("sure"):
         print("Here is what you'll need: ")
@@ -188,17 +206,8 @@ while True:
     else:
         print("Okay!")
     print("-------------------------------------------------------------------------")
-    start = input("Would you like to see all the instructions? Or go step by step? ")
-    if start.__contains__("all"):
-        print("")
-        print_instructions(recipe)
-        print("")
-    elif start.__contains__("step"):
-        step = checkStep(recipe, False, step, False)
-        print("")
-        print("Step " + str(step + 1) + ":")
-        print(recipe.instructions_list[step])
-    print("-------------------------------------------------------------------------")
+    #Asks user if they would like to substitute, calls get_subst() to store input, and substitute_handler()
+    #if they do
     substitute = input("Would you like to make a substitution?" )
     if substitute.__contains__("y") or substitute.__contains__("sure"):
         print("")
@@ -212,58 +221,87 @@ while True:
         print("Here are the new Ingredients you'll need: ")
         print("")
         substitutions.compare_lists(recipe, recipe.ingredients_list)
-
+    print("-------------------------------------------------------------------------")
+    #Asks user if they want to see a list of all instructions, or examine one individually
+    start = input("Would you like to see all the instructions? Or go step by step? ")
+    if start.__contains__("all"):
+        print("")
+        print_instructions(recipe)
+        print("")
+    elif start.__contains__("step"):
+        step = checkStep(recipe, False, step, False)
+        print("")
+        print("Step " + str(step + 1) + ":")
+        print(recipe.instructions_list[step])
+  #Inner loop of Chefly, where users can see all steps, all ingredients, or navigate specific steps
+  # and see information about each specific one 
     while unchanged:
         print("-------------------------------------------------------------------------")
         question = input("What would you like to know? You can ask things like next step, show all steps, show ingredients for this step, or how much do I need, or how do I do that: ")
         print("")
+        #Handles user's response for the inner loop
+
+        #If user says next step, program calls check_step() and proceeds to next
         if question.__contains__("next step"):
             step = checkStep(recipe, True, step, False)
             print("")
             print("Step " + str(step + 1) + ":")
             print(recipe.instructions_list[step])
+        #If user says previous step, or back step, changes step count to - 1
         elif question.__contains__("previous") or question.__contains__("back"):
             step = checkStep(recipe, False, step, True)
             print("")
             print("Step " + str(step + 1) + ":")
             print(recipe.instructions_list[step])
+        #Prints all steps
         elif question.__contains__("all steps"):
             print_instructions(recipe)
             print("")
             step = 0
+        #Prints all ingredients
         elif question.__contains__("all ingredients"):
             print_ingredients(recipe)
             print("")
             step = 0
+        #If user wants to see a specific step, prints that step
         elif question.__contains__("step"):
             step = checkStep(recipe, False, step, False)
             print("")
             print("Step " + str(step + 1) + ":")
             print(recipe.instructions_list[step])
+        #If user wants to change recipe, sets inner loop variable to false to re start the outer loop
         elif question == "Change Recipe" or question == "change recipe" or question == "Change recipe":
             unchanged = False
+        #If user asks How do I do that, queries YouTube for their specific question
         elif question.__contains__("How do I do that") or question.__contains__("how do"):
             string = recipe.instructions_list[step]
             string = string.replace(" ", "+")
             print("I found this on YouTube to answer your question: ")
             print("https://www.youtube.com/results?search_query=how+do+I+" + string)
+        #If user asks how do I do that for more general questions, queries YouTube
         elif question.__contains__("How do I") or question.__contains__("how do i") or question.__contains__("how do"):
             question = question.replace(" ", "+")
             print("I found this on YouTube to answer your question: ")
             print("https://www.youtube.com/results?search_query=" + question)
+        #If user asks a question in format 'what is a', queries google and returns a link with results
         elif question.__contains__("what is a"):
             question = question.replace(" ", "+")
             print("This might answer your question: ")
             print("https://www.google.com/search?q=" + question)
+        #If user asks substitution questions, queries google for the result
         elif question.__contains__("what can I substitute"):
              question = question.replace(" ", "+")
              print("This might answer your substitution question: ")
              print("https://www.google.com/search?q=" + question)
+        #If user types 'exit', terminates program
         elif question == "exit":
             exit()
+        #If user types 'help' calls show_help() method
         elif question == "help":
             show_help()
         else:
+            #For specific questions about a recipe's step
+            #Checks to see which keyword matches the users question, to appropriately call handle_question()
             answered = False
             for i in range(len(keywordList)):
                 for j in range(len(keywordList[i])):
@@ -271,6 +309,8 @@ while True:
                         handleQuestion(i, recipe, step)
                         answered = True
                         break
+            #If handle_question() has not been called, and for all other questions that haven't been handled,
+            #print this result
             if not(answered):
                 print("Sorry, I am not sure. Please ask another question.")
 
