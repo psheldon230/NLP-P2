@@ -84,8 +84,8 @@ nonVegan_substitutions = {
 }
 
 healthy_substitutions = {
-    "sugar": "honey",
     "brown sugar": "coconut sugar",
+    "sugar": "honey",
     "confectioners' sugar": "coconut sugar",
     "corn syrup": "honey",
     "high-fructose corn syrup": "honey",
@@ -102,8 +102,8 @@ healthy_substitutions = {
     "white rice": "brown rice",
     "white pasta": "whole wheat pasta",
     "salt": "sea salt",
-    "processed meats": "lean meats",
-    "red meat": "poultry",
+    "beef": "chicken",
+    "pork": "turkey",
     "bacon": "turkey bacon",
     "sausage": "turkey sausage",
     "hot dogs": "tofu dogs",
@@ -113,6 +113,30 @@ healthy_substitutions = {
     "mayonnaise": "avocado",
     "cream cheese": "Greek yogurt",
     "heavy cream": "coconut cream"
+}
+unhealthy_substitutions = {
+    "coconut sugar": "brown sugar",
+    "honey": "sugar",
+    "coconut sugar": "confectioners' sugar",
+    "coconut oil": "butter",
+    "vegetable oil": "corn oil",
+    "whole wheat flour": "white flour",
+    "whole wheat bread": "white bread",
+    "brown rice": "white rice",
+    "whole wheat pasta": "white pasta",
+    "sea salt":  "salt",
+    "processed meats": "lean meats",
+    "chicken": "beef",
+    "turkey":"pork",
+    "turkey bacon": "bacon",
+    "turkey sausage": "sausage",
+    "tofu dogs": "hot dogs",
+    "turkey ham": "ham",
+    "nutritional yeast": "cheese",
+    "Greek yogurt": "sour cream",
+    "avocado": "mayonnaise",
+    "Greek yogurt": "cream cheese",
+    "coconut cream": "heavy cream"
 }
 mexican_substitutions = {
     "olive oil": "vegetable oil",
@@ -288,10 +312,6 @@ def nonToVeg(recipe):
                 break 
     return oldIngredients
 
-
-
-
-
 def vegToNon(recipe):
     oldIngredients = recipe.ingredients_list
     dairyList = nonVegan_substitutions["dairy"].keys()
@@ -330,16 +350,56 @@ def vegToNon(recipe):
     return oldIngredients
 
 def unToHealth(recipe):
-    pass
+    healthyList = healthy_substitutions.keys()
+    oldIngredients = recipe.ingredients_list
+    #replace unhealhty items
+    for i in range(len(oldIngredients)):
+        for item in healthyList:
+            oldIngredients[i] = oldIngredients[i].lower()
+            if oldIngredients[i].__contains__(item):
+                oldIngredients[i] = oldIngredients[i].replace(item, healthy_substitutions[item])
+                break
+
+    return oldIngredients
 
 def healthToUn(recipe):
-    pass
+    unhealthyList = unhealthy_substitutions.keys()
+    oldIngredients = recipe.ingredients_list
+    #replace unhealhty items
+    for i in range(len(oldIngredients)):
+        for item in unhealthyList:
+            oldIngredients[i] = oldIngredients[i].lower()
+            if oldIngredients[i].__contains__(item):
+                oldIngredients[i] = oldIngredients[i].replace(item, unhealthy_substitutions[item])
+                break
+
+    return oldIngredients
 
 def makeItalian(recipe):
-    pass
+    italianList = italian_substitutions.keys()
+    oldIngredients = recipe.ingredients_list
+    #replace unhealhty items
+    for i in range(len(oldIngredients)):
+        for item in italianList:
+            oldIngredients[i] = oldIngredients[i].lower()
+            if oldIngredients[i].__contains__(item):
+                oldIngredients[i] = oldIngredients[i].replace(item, italian_substitutions[item])
+                break
+
+    return oldIngredients
 
 def makeMexican(recipe):
-    pass
+    mexicanList = mexican_substitutions.keys()
+    oldIngredients = recipe.ingredients_list
+    #replace unhealhty items
+    for i in range(len(oldIngredients)):
+        for item in mexicanList:
+            oldIngredients[i] = oldIngredients[i].lower()
+            if oldIngredients[i].__contains__(item):
+                oldIngredients[i] = oldIngredients[i].replace(item, mexican_substitutions[item])
+                break
+        
+    return oldIngredients
 
 def compare_lists(recipe, new):
     old = recipe.old_ingredients

@@ -64,16 +64,20 @@ def substitute_handler(substitute, recipe):
             substitutions.vegToNon(recipe)
             subbed = False
         elif substitute == 3:
-            substitutions.unToHealth(recipe)
+            recipe.ingredients_list = substitutions.unToHealth(recipe)
+            print("Subbed to Healthy!")
             subbed = False
         elif substitute == 4:
-            substitutions.healthToUn(recipe)
+            recipe.ingredients_list = substitutions.healthToUn(recipe)
+            print("Subbed to Unhealthy!")
             subbed = False
         elif substitute == 5:
-            substitutions.makeItalian(recipe)
+            recipe.ingredients_list = substitutions.makeItalian(recipe)
+            print("Subbed to Italian!")
             subbed = False
-        elif substitute == 5:
-            substitutions.makeMexican(recipe)
+        elif substitute == 6:
+            recipe.ingredients_list = substitutions.makeMexican(recipe)
+            print("Subbed to Mexican!")
             subbed = False
         else:
             subbed = True
@@ -167,7 +171,7 @@ def show_help():
 while True:
     unchanged = True
     if firstTime:
-        url = input("Hi I'm Chefly! Enter a Recipe URL to get cooking!" )
+        url = input("Hi I'm Chefly! Enter a Recipe URL to get cooking! " )
         firstTime = False
     else:
         url = input("Please enter another recipe URL: ")
@@ -195,14 +199,16 @@ while True:
         print("Step " + str(step + 1) + ":")
         print(recipe.instructions_list[step])
     print("-------------------------------------------------------------------------")
-    substitute = input("Would you like to make a substitution?")
+    substitute = input("Would you like to make a substitution?" )
     if substitute.__contains__("y"):
         print("")
         print("What would you like to substitute? You can choose one of the following: ")
         print("[1] Non-Vegan to Vegan, [2] Vegan to Non Vegan, [3] Unhealthy to healthy, [4] Healthy to unhealthy, [5]Make this Italian Style, [6] Make this Mexican Style")
         retval = get_subst()
         substitute_handler(retval, recipe)
+        print("")
         print("Here are the new Ingredients you'll need: ")
+        print("")
         substitutions.compare_lists(recipe, recipe.ingredients_list)
 
     while unchanged:
