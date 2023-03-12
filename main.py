@@ -200,8 +200,8 @@ while True:
         print("")
         print("What would you like to substitute? You can choose one of the following: ")
         print("[1] Non-Vegan to Vegan, [2] Vegan to Non Vegan, [3] Unhealthy to healthy, [4] Healthy to unhealthy, [5]Make this Italian Style, [6] Make this Mexican Style")
-        substitute = get_step()
-        substitute_handler(substitute, recipe)
+        retval = get_subst()
+        substitute_handler(retval, recipe)
         print("Here are the new Ingredients you'll need: ")
         substitutions.compare_lists(recipe, recipe.ingredients_list)
 

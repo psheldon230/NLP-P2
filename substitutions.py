@@ -35,13 +35,51 @@ vegan_substitutions = {
     },
     "misc": {
         "honey": "agave nectar",
-        "gelatin": "agar agar",
+        "gelatin": "agar",
         "fish sauce": "soy sauce",
         "caesar salad dressing": "miso dressing",
         "gravy": "vegatable broth and cornstarch mix",
         "lard": "olive oil",
         "pesto": "yeast pesto",
         "worcestershire sauce": "soy sauce"
+    }
+
+}
+nonVegan_substitutions = {
+     "meat": {
+        "seitan": "chicken",
+        "bean patties": "beef patties",
+        "tempeh": "beef",
+        "tempeh bacon": "bacon",
+        "veggie burger": "ground beef",
+        "black bean burger": "ground beef",
+        "vegan sausage": "sausage",
+        "soy crumbles": "ground beef",
+        "tofu": "chicken",
+        "beets": "veal"
+    },
+    "dairy": {
+        "curdled soymilk": "buttermilk",
+        "vegan margarine": "butter",
+        "almond milk": "milk",
+        "coconut cream": "heavy cream",
+        "coconut oil": "butter",
+        "vegan sour cream": "sour cream",
+        "coconut yogurt": "yogurt",
+        "oat milk": "milk",
+        "vegan cheese": "cheese"
+    },
+    "eggs": {
+        "tofu": "egg(s)",
+        "vegan mayonnaise": "mayonnaise"
+    },
+    "misc":
+    {
+        "agave nectar": "honey",
+        "agar": "gelatin",
+        "soy sauce": "fish sauce",
+        "miso dressing": "caesar salad dressing",
+        "vegatable broth": "chicken broth",
     }
 }
 
@@ -255,7 +293,42 @@ def nonToVeg(recipe):
 
 
 def vegToNon(recipe):
-    pass
+    oldIngredients = recipe.ingredients_list
+    dairyList = nonVegan_substitutions["dairy"].keys()
+    eggList = nonVegan_substitutions["eggs"].keys()
+    meatList = nonVegan_substitutions["meat"].keys()
+    miscList = nonVegan_substitutions["misc"].keys()
+     #replace meat
+    for i in range(len(oldIngredients)):
+        for item in meatList:
+            oldIngredients[i] = oldIngredients[i].lower()
+            if oldIngredients[i].__contains__(item):
+                oldIngredients[i] = oldIngredients[i].replace(item, nonVegan_substitutions["meat"][item])
+                break
+    #replace dairy
+    for i in range(len(oldIngredients)):
+        for item in dairyList:
+            oldIngredients[i] = oldIngredients[i].lower()
+            if oldIngredients[i].__contains__(item):
+                oldIngredients[i] = oldIngredients[i].replace(item, nonVegan_substitutions["dairy"][item])
+                break
+   
+   #replace eggs
+    for i in range(len(oldIngredients)):
+        for item in eggList:
+            oldIngredients[i] = oldIngredients[i].lower()
+            if oldIngredients[i].__contains__(item):
+                oldIngredients[i] = oldIngredients[i].replace(item, nonVegan_substitutions["eggs"][item])
+                break
+
+    for i in range(len(oldIngredients)):
+        for item in miscList:
+            oldIngredients[i] = oldIngredients[i].lower()
+            if oldIngredients[i].__contains__(item):
+                oldIngredients[i] = oldIngredients[i].replace(item, nonVegan_substitutions["misc"][item])
+                break 
+    return oldIngredients
+
 def unToHealth(recipe):
     pass
 
