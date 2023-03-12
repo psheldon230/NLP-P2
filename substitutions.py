@@ -125,10 +125,12 @@ healthy_substitutions = {
 
 #common unhealthy substitutions
 unhealthy_substitutions = {
+    "salmon": "beef",
     "coconut sugar": "brown sugar",
     "honey": "sugar",
     "coconut sugar": "confectioners' sugar",
     "coconut oil": "butter",
+    "seasame oil": "butter",
     "vegetable oil": "corn oil",
     "whole wheat flour": "white flour",
     "whole wheat bread": "white bread",
@@ -137,11 +139,11 @@ unhealthy_substitutions = {
     "sea salt":  "salt",
     "processed meats": "lean meats",
     "chicken": "beef",
-    "turkey":"pork",
     "turkey bacon": "bacon",
     "turkey sausage": "sausage",
     "tofu dogs": "hot dogs",
     "turkey ham": "ham",
+    "turkey":"pork",
     "nutritional yeast": "cheese",
     "Greek yogurt": "sour cream",
     "avocado": "mayonnaise",
